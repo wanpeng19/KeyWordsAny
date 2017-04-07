@@ -18,10 +18,26 @@ import org.apache.commons.lang3.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.util.KeyWordsXlsReader;
 import javafx.stage.FileChooser;
 
 public class MyControl implements Initializable {
+	public static final int Y_INTERVAL = 35;
+
+	public static final int nextTextFiled_1_X = 140;
+	public static final int nextTextFiled_2_X = 275;
+	public static final int nextTextFiled_3_X = 410;
+
+	public static int nextTextFiled_Y = 120 + Y_INTERVAL;
+
+	public static final int nextLabel_X = 50;
+	public static int nextLabel_Y = 120 + Y_INTERVAL;
+	
+	public static final String KEY_WORDS_GROUP_CH = "关键词组";
+	
+	@FXML
+	AnchorPane myPane;
 
 	@FXML
 	TextField key_1_1;
@@ -46,12 +62,14 @@ public class MyControl implements Initializable {
 	@FXML
 	Button btn_2;
 	@FXML
-	Label label_4;
+	Label label_common;
 
 	File file;
 	List<String> keywords;
 
 	Boolean flag = false;
+	
+	int keywordNum = 3;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,10 +80,10 @@ public class MyControl implements Initializable {
 
 		if (!flag) {
 			System.out.println("未选择文件");
-			label_4.setText("请先选择文件");
+			label_common.setText("请先选择文件");
 			return;
 		}
-		label_4.setText("正在分析");
+		label_common.setText("正在分析");
 		List<String> andSet1 = new ArrayList<String>();
 		List<String> andSet2 = new ArrayList<String>();
 		List<String> andSet3 = new ArrayList<String>();
@@ -123,16 +141,16 @@ public class MyControl implements Initializable {
 		result1.addAll(result2);
 		result1.addAll(result3);
 		System.out.println("过滤后结果为：" + result1);
-		
-		//写入文件
+
+		// 写入文件
 		String path = file.getAbsolutePath();
 		System.out.println(path);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
-		String resultPath = path.replace(".xlsx", "_result_"+sdf.format(new Date())+".txt");
+		String resultPath = path.replace(".xlsx", "_result_" + sdf.format(new Date()) + ".txt");
 		System.out.println(resultPath);
 		FileUtils.writeLines(new File(resultPath), result1);
 		btn_2.setText("开始分析");
-		label_4.setText("分析结束，导出结果为"+resultPath);
+		label_common.setText("分析结束，导出结果为" + resultPath);
 	}
 
 	@FXML
@@ -143,6 +161,19 @@ public class MyControl implements Initializable {
 		keywords = KeyWordsXlsReader.readConfigXlsx(file, 0);
 		System.out.println(keywords);
 		flag = true;
-		label_4.setText("已经选择文件，可以开始分析");
+		label_common.setText("已经选择文件，可以开始分析");
+	}
+
+	@FXML
+	private void addKeyWord() {
+		Label nextLabel = new Label(KEY_WORDS_GROUP_CH + (++keywordNum));
+		nextLabel.setLayoutX(nextLabel_X);
+		nextLabel.setLayoutY(nextLabel_Y);
+		myPane.getChildren().add(nextLabel);
+		
+		//设置下次的坐标
+		
+		nextLabel_Y += Y_INTERVAL;
+		
 	}
 }
