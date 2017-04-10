@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fpx.grs.wh.util.FxQuery;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,7 +38,7 @@ public class MyControl implements Initializable {
 	public static final int nextLabel_X = 50;
 	public static int nextLabel_Y = 120 + Y_INTERVAL;
 	
-	public static final String KEY_WORDS_GROUP_CH = "¹Ø¼ü´Ê×é";
+	public static final String KEY_WORDS_GROUP_CH = "å…³é”®è¯ç»„";
 	
 	@FXML
 	AnchorPane myPane1;
@@ -91,19 +92,21 @@ public class MyControl implements Initializable {
 
 	@FXML
 	private void start(ActionEvent event) throws IOException {
+		
+		//TODO
 
 		if (!flag) {
-			System.out.println("Î´Ñ¡ÔñÎÄ¼ş");
-			label_common.setText("ÇëÏÈÑ¡ÔñÎÄ¼ş");
+			System.out.println("æœªé€‰æ‹©æ–‡ä»¶");
+			label_common.setText("è¯·å…ˆé€‰æ‹©æ–‡ä»¶");
 			return;
 		}
-		label_common.setText("ÕıÔÚ·ÖÎö");
+		label_common.setText("æ­£åœ¨åˆ†æ");
 		List<String> andSet1 = new ArrayList<String>();
 		List<String> andSet2 = new ArrayList<String>();
 		List<String> andSet3 = new ArrayList<String>();
 
 		System.out.println("start");
-		// »ñµÃÊäÈë
+		// è·å¾—è¾“å…¥
 		if (StringUtils.isNoneBlank(key_1_1.getText())) {
 			andSet1.add(key_1_1.getText());
 		}
@@ -135,8 +138,8 @@ public class MyControl implements Initializable {
 		System.out.println("andSet2=" + andSet2);
 		System.out.println("andSet3=" + andSet3);
 
-		// ¿ªÊ¼¹ıÂË
-		// ¹ıÂË¹Ø¼ü´Ê×é1
+		// å¼€å§‹è¿‡æ»¤
+		// è¿‡æ»¤å…³é”®è¯ç»„1
 		Set<String> result1 = new HashSet<String>();
 		Set<String> result2 = new HashSet<String>();
 		Set<String> result3 = new HashSet<String>();
@@ -154,17 +157,17 @@ public class MyControl implements Initializable {
 		}
 		result1.addAll(result2);
 		result1.addAll(result3);
-		System.out.println("¹ıÂËºó½á¹ûÎª£º" + result1);
+		System.out.println("è¿‡æ»¤åç»“æœä¸ºï¼š" + result1);
 
-		// Ğ´ÈëÎÄ¼ş
+		// å†™å…¥æ–‡ä»¶
 		String path = file.getAbsolutePath();
 		System.out.println(path);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
 		String resultPath = path.replace(".xlsx", "_result_" + sdf.format(new Date()) + ".txt");
 		System.out.println(resultPath);
 		FileUtils.writeLines(new File(resultPath), result1);
-		btn_2.setText("¿ªÊ¼·ÖÎö");
-		label_common.setText("·ÖÎö½áÊø£¬µ¼³ö½á¹ûÎª" + resultPath);
+		btn_2.setText("å¼€å§‹åˆ†æ");
+		label_common.setText("åˆ†æç»“æŸï¼Œå¯¼å‡ºç»“æœä¸º" + resultPath);
 	}
 
 	@FXML
@@ -175,7 +178,7 @@ public class MyControl implements Initializable {
 		keywords = KeyWordsXlsReader.readConfigXlsx(file, 0);
 		System.out.println(keywords);
 		flag = true;
-		label_common.setText("ÒÑ¾­Ñ¡ÔñÎÄ¼ş£¬¿ÉÒÔ¿ªÊ¼·ÖÎö");
+		label_common.setText("å·²ç»é€‰æ‹©æ–‡ä»¶ï¼Œå¯ä»¥å¼€å§‹åˆ†æ");
 	}
 
 	@FXML
@@ -191,21 +194,24 @@ public class MyControl implements Initializable {
 			nextTextField1.setMaxWidth(textFiledLength);
 			nextTextField1.setLayoutX(nextTextFiled_1_X);
 			nextTextField1.setLayoutY(nextTextFiled_Y);
+			nextTextField1.setId("key_"+keywordNum+"_"+"1");
 			myPane1.getChildren().add(nextTextField1);
 			
 			TextField nextTextField2 = new TextField();
 			nextTextField2.setMaxWidth(textFiledLength);
 			nextTextField2.setLayoutX(nextTextFiled_2_X);
 			nextTextField2.setLayoutY(nextTextFiled_Y);
+			nextTextField2.setId("key_"+keywordNum+"_"+"2");
 			myPane1.getChildren().add(nextTextField2);
 			
 			TextField nextTextField3 = new TextField();
 			nextTextField3.setMaxWidth(textFiledLength);
 			nextTextField3.setLayoutX(nextTextFiled_3_X);
 			nextTextField3.setLayoutY(nextTextFiled_Y);
+			nextTextField3.setId("key_"+keywordNum+"_"+"3");
 			myPane1.getChildren().add(nextTextField3);
 			
-			//ÉèÖÃÏÂ´ÎµÄ×ø±ê
+			//è®¾ç½®ä¸‹æ¬¡çš„åæ ‡
 			nextLabel_Y += Y_INTERVAL;
 			nextTextFiled_Y += Y_INTERVAL;
 		} else if(keywordNum > 10 && keywordNum <= 20){
@@ -222,18 +228,21 @@ public class MyControl implements Initializable {
 				nextTextField1.setMaxWidth(textFiledLength);
 				nextTextField1.setLayoutX(nextTextFiled_1_X);
 				nextTextField1.setLayoutY(nextTextFiled_Y);
+				nextTextField1.setId("key_"+keywordNum+"_"+"1");
 				myPane2.getChildren().add(nextTextField1);
 				
 				TextField nextTextField2 = new TextField();
 				nextTextField2.setMaxWidth(textFiledLength);
 				nextTextField2.setLayoutX(nextTextFiled_2_X);
 				nextTextField2.setLayoutY(nextTextFiled_Y);
+				nextTextField2.setId("key_"+keywordNum+"_"+"2");
 				myPane2.getChildren().add(nextTextField2);
 				
 				TextField nextTextField3 = new TextField();
 				nextTextField3.setMaxWidth(textFiledLength);
 				nextTextField3.setLayoutX(nextTextFiled_3_X);
 				nextTextField3.setLayoutY(nextTextFiled_Y);
+				nextTextField3.setId("key_"+keywordNum+"_"+"3");
 				myPane2.getChildren().add(nextTextField3);
 			
 				nextLabel_Y += Y_INTERVAL;
@@ -253,18 +262,21 @@ public class MyControl implements Initializable {
 				nextTextField1.setMaxWidth(textFiledLength);
 				nextTextField1.setLayoutX(nextTextFiled_1_X);
 				nextTextField1.setLayoutY(nextTextFiled_Y);
+				nextTextField1.setId("key_"+keywordNum+"_"+"1");
 				myPane3.getChildren().add(nextTextField1);
 				
 				TextField nextTextField2 = new TextField();
 				nextTextField2.setMaxWidth(textFiledLength);
 				nextTextField2.setLayoutX(nextTextFiled_2_X);
 				nextTextField2.setLayoutY(nextTextFiled_Y);
+				nextTextField2.setId("key_"+keywordNum+"_"+"2");
 				myPane3.getChildren().add(nextTextField2);
 				
 				TextField nextTextField3 = new TextField();
 				nextTextField3.setMaxWidth(textFiledLength);
 				nextTextField3.setLayoutX(nextTextFiled_3_X);
 				nextTextField3.setLayoutY(nextTextFiled_Y);
+				nextTextField3.setId("key_"+keywordNum+"_"+"3");
 				myPane3.getChildren().add(nextTextField3);
 			
 				nextLabel_Y += Y_INTERVAL;
@@ -283,18 +295,21 @@ public class MyControl implements Initializable {
 				nextTextField1.setMaxWidth(textFiledLength);
 				nextTextField1.setLayoutX(nextTextFiled_1_X);
 				nextTextField1.setLayoutY(nextTextFiled_Y);
+				nextTextField1.setId("key_"+keywordNum+"_"+"1");
 				myPane4.getChildren().add(nextTextField1);
 				
 				TextField nextTextField2 = new TextField();
 				nextTextField2.setMaxWidth(textFiledLength);
 				nextTextField2.setLayoutX(nextTextFiled_2_X);
 				nextTextField2.setLayoutY(nextTextFiled_Y);
+				nextTextField2.setId("key_"+keywordNum+"_"+"2");
 				myPane4.getChildren().add(nextTextField2);
 				
 				TextField nextTextField3 = new TextField();
 				nextTextField3.setMaxWidth(textFiledLength);
 				nextTextField3.setLayoutX(nextTextFiled_3_X);
 				nextTextField3.setLayoutY(nextTextFiled_Y);
+				nextTextField3.setId("key_"+keywordNum+"_"+"3");
 				myPane4.getChildren().add(nextTextField3);
 			
 				nextLabel_Y += Y_INTERVAL;
@@ -313,18 +328,21 @@ public class MyControl implements Initializable {
 				nextTextField1.setMaxWidth(textFiledLength);
 				nextTextField1.setLayoutX(nextTextFiled_1_X);
 				nextTextField1.setLayoutY(nextTextFiled_Y);
+				nextTextField1.setId("key_"+keywordNum+"_"+"1");
 				myPane5.getChildren().add(nextTextField1);
 				
 				TextField nextTextField2 = new TextField();
 				nextTextField2.setMaxWidth(textFiledLength);
 				nextTextField2.setLayoutX(nextTextFiled_2_X);
 				nextTextField2.setLayoutY(nextTextFiled_Y);
+				nextTextField2.setId("key_"+keywordNum+"_"+"2");
 				myPane5.getChildren().add(nextTextField2);
 				
 				TextField nextTextField3 = new TextField();
 				nextTextField3.setMaxWidth(textFiledLength);
 				nextTextField3.setLayoutX(nextTextFiled_3_X);
 				nextTextField3.setLayoutY(nextTextFiled_Y);
+				nextTextField3.setId("key_"+keywordNum+"_"+"3");
 				myPane5.getChildren().add(nextTextField3);
 			
 				nextLabel_Y += Y_INTERVAL;
