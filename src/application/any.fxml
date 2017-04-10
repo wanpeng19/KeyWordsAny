@@ -10,7 +10,7 @@
 	<tabs>
 		<Tab text="第一页">
 			<content>
-				<AnchorPane fx:id="myPane" minHeight="0.0" minWidth="0.0" prefHeight="800" prefWidth="710.0">
+				<AnchorPane fx:id="myPane1" minHeight="0.0" minWidth="0.0" prefHeight="800" prefWidth="710.0">
 					<children>
 						<ButtonBar layoutX="160.0" layoutY="304.0" prefHeight="40.0" prefWidth="210.0" />
 						<TextField fx:id="key_1_1" layoutX="140" layoutY="50.0" prefHeight="23.0" prefWidth="110" />
@@ -29,7 +29,7 @@
 						<Label layoutX="50" layoutY="120" text="关键词组3" />
 						<Label fx:id="label_common" layoutX="111.0" layoutY="400.0" prefHeight="68.0" prefWidth="388.0" text="" />
 
-						<Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addKeyWord" prefHeight="28.0" prefWidth="78.0" text="增加关键词" />
+						<Button fx:id="btn_addKey" layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addKeyWord" prefHeight="28.0" prefWidth="120.0" text="增加关键词" />
 
 						<Button fx:id="btn_1" layoutX="158.0" layoutY="480.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="40.0" prefWidth="140.0" text="请选择文件" />
 						<Button fx:id="btn_2" layoutX="323.0" layoutY="478.0" mnemonicParsing="false" onAction="#start" prefHeight="41.0" prefWidth="127.0" text="开始分析" />
@@ -39,32 +39,36 @@
 		</Tab>
 		<Tab text="第二页">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+				<AnchorPane  fx:id="myPane2" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 					<children>
+					<Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addKeyWord" prefHeight="28.0" prefWidth="120.0" text="增加关键词" />
 					</children>
 				</AnchorPane>
 			</content>
 		</Tab>
 		<Tab text="第三页">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+				<AnchorPane  fx:id="myPane3" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 					<children>
+					<Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addKeyWord" prefHeight="28.0" prefWidth="120.0" text="增加关键词" />
 					</children>
 				</AnchorPane>
 			</content>
 		</Tab>
 		<Tab text="第四页">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+				<AnchorPane  fx:id="myPane4" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 					<children>
+							<Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addKeyWord" prefHeight="28.0" prefWidth="120.0" text="增加关键词" />
 					</children>
 				</AnchorPane>
 			</content>
 		</Tab>
 		<Tab text="第五页">
 			<content>
-				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+				<AnchorPane  fx:id="myPane5" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
 					<children>
+							<Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addKeyWord" prefHeight="28.0" prefWidth="120.0" text="增加关键词" />
 					</children>
 				</AnchorPane>
 			</content>

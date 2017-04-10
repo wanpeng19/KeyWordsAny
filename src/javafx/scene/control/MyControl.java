@@ -29,7 +29,10 @@ public class MyControl implements Initializable {
 	public static final int nextTextFiled_2_X = 275;
 	public static final int nextTextFiled_3_X = 410;
 
+	public static int initTextFiled_Y = 50 ;
 	public static int nextTextFiled_Y = 120 + Y_INTERVAL;
+	public static int textFiledLength = 110;
+	
 
 	public static final int nextLabel_X = 50;
 	public static int nextLabel_Y = 120 + Y_INTERVAL;
@@ -37,8 +40,19 @@ public class MyControl implements Initializable {
 	public static final String KEY_WORDS_GROUP_CH = "关键词组";
 	
 	@FXML
-	AnchorPane myPane;
-
+	AnchorPane myPane1;
+	@FXML
+	AnchorPane myPane2;
+	@FXML
+	AnchorPane myPane3;
+	@FXML
+	AnchorPane myPane4;
+	@FXML
+	AnchorPane myPane5;
+	
+	@FXML
+	Button btn_addKey;
+	
 	@FXML
 	TextField key_1_1;
 	@FXML
@@ -166,14 +180,155 @@ public class MyControl implements Initializable {
 
 	@FXML
 	private void addKeyWord() {
-		Label nextLabel = new Label(KEY_WORDS_GROUP_CH + (++keywordNum));
-		nextLabel.setLayoutX(nextLabel_X);
-		nextLabel.setLayoutY(nextLabel_Y);
-		myPane.getChildren().add(nextLabel);
-		
-		//设置下次的坐标
-		
-		nextLabel_Y += Y_INTERVAL;
-		
+		++keywordNum;
+		if(keywordNum <= 10){
+			Label nextLabel = new Label(KEY_WORDS_GROUP_CH + keywordNum);
+			nextLabel.setLayoutX(nextLabel_X);
+			nextLabel.setLayoutY(nextLabel_Y);
+			myPane1.getChildren().add(nextLabel);
+			
+			TextField nextTextField1 = new TextField();
+			nextTextField1.setMaxWidth(textFiledLength);
+			nextTextField1.setLayoutX(nextTextFiled_1_X);
+			nextTextField1.setLayoutY(nextTextFiled_Y);
+			myPane1.getChildren().add(nextTextField1);
+			
+			TextField nextTextField2 = new TextField();
+			nextTextField2.setMaxWidth(textFiledLength);
+			nextTextField2.setLayoutX(nextTextFiled_2_X);
+			nextTextField2.setLayoutY(nextTextFiled_Y);
+			myPane1.getChildren().add(nextTextField2);
+			
+			TextField nextTextField3 = new TextField();
+			nextTextField3.setMaxWidth(textFiledLength);
+			nextTextField3.setLayoutX(nextTextFiled_3_X);
+			nextTextField3.setLayoutY(nextTextFiled_Y);
+			myPane1.getChildren().add(nextTextField3);
+			
+			//设置下次的坐标
+			nextLabel_Y += Y_INTERVAL;
+			nextTextFiled_Y += Y_INTERVAL;
+		} else if(keywordNum > 10 && keywordNum <= 20){
+			if(keywordNum == 11){
+				nextLabel_Y = initTextFiled_Y;
+				nextTextFiled_Y = initTextFiled_Y;
+			   }
+				Label nextLabel = new Label(KEY_WORDS_GROUP_CH + keywordNum);
+				nextLabel.setLayoutX(nextLabel_X);
+				nextLabel.setLayoutY(nextLabel_Y);
+				myPane2.getChildren().add(nextLabel);
+				
+				TextField nextTextField1 = new TextField();
+				nextTextField1.setMaxWidth(textFiledLength);
+				nextTextField1.setLayoutX(nextTextFiled_1_X);
+				nextTextField1.setLayoutY(nextTextFiled_Y);
+				myPane2.getChildren().add(nextTextField1);
+				
+				TextField nextTextField2 = new TextField();
+				nextTextField2.setMaxWidth(textFiledLength);
+				nextTextField2.setLayoutX(nextTextFiled_2_X);
+				nextTextField2.setLayoutY(nextTextFiled_Y);
+				myPane2.getChildren().add(nextTextField2);
+				
+				TextField nextTextField3 = new TextField();
+				nextTextField3.setMaxWidth(textFiledLength);
+				nextTextField3.setLayoutX(nextTextFiled_3_X);
+				nextTextField3.setLayoutY(nextTextFiled_Y);
+				myPane2.getChildren().add(nextTextField3);
+			
+				nextLabel_Y += Y_INTERVAL;
+				nextTextFiled_Y += Y_INTERVAL;
+				
+		} else if(keywordNum > 20 && keywordNum <= 30){
+			if(keywordNum == 21){
+				nextLabel_Y = initTextFiled_Y;
+				nextTextFiled_Y = initTextFiled_Y;
+			   }
+				Label nextLabel = new Label(KEY_WORDS_GROUP_CH + keywordNum);
+				nextLabel.setLayoutX(nextLabel_X);
+				nextLabel.setLayoutY(nextLabel_Y);
+				myPane3.getChildren().add(nextLabel);
+				
+				TextField nextTextField1 = new TextField();
+				nextTextField1.setMaxWidth(textFiledLength);
+				nextTextField1.setLayoutX(nextTextFiled_1_X);
+				nextTextField1.setLayoutY(nextTextFiled_Y);
+				myPane3.getChildren().add(nextTextField1);
+				
+				TextField nextTextField2 = new TextField();
+				nextTextField2.setMaxWidth(textFiledLength);
+				nextTextField2.setLayoutX(nextTextFiled_2_X);
+				nextTextField2.setLayoutY(nextTextFiled_Y);
+				myPane3.getChildren().add(nextTextField2);
+				
+				TextField nextTextField3 = new TextField();
+				nextTextField3.setMaxWidth(textFiledLength);
+				nextTextField3.setLayoutX(nextTextFiled_3_X);
+				nextTextField3.setLayoutY(nextTextFiled_Y);
+				myPane3.getChildren().add(nextTextField3);
+			
+				nextLabel_Y += Y_INTERVAL;
+				nextTextFiled_Y += Y_INTERVAL;
+		} else if(keywordNum > 30 && keywordNum <= 40){
+			if(keywordNum == 31){
+				nextLabel_Y = initTextFiled_Y;
+				nextTextFiled_Y = initTextFiled_Y;
+			   }
+				Label nextLabel = new Label(KEY_WORDS_GROUP_CH + keywordNum);
+				nextLabel.setLayoutX(nextLabel_X);
+				nextLabel.setLayoutY(nextLabel_Y);
+				myPane4.getChildren().add(nextLabel);
+				
+				TextField nextTextField1 = new TextField();
+				nextTextField1.setMaxWidth(textFiledLength);
+				nextTextField1.setLayoutX(nextTextFiled_1_X);
+				nextTextField1.setLayoutY(nextTextFiled_Y);
+				myPane4.getChildren().add(nextTextField1);
+				
+				TextField nextTextField2 = new TextField();
+				nextTextField2.setMaxWidth(textFiledLength);
+				nextTextField2.setLayoutX(nextTextFiled_2_X);
+				nextTextField2.setLayoutY(nextTextFiled_Y);
+				myPane4.getChildren().add(nextTextField2);
+				
+				TextField nextTextField3 = new TextField();
+				nextTextField3.setMaxWidth(textFiledLength);
+				nextTextField3.setLayoutX(nextTextFiled_3_X);
+				nextTextField3.setLayoutY(nextTextFiled_Y);
+				myPane4.getChildren().add(nextTextField3);
+			
+				nextLabel_Y += Y_INTERVAL;
+				nextTextFiled_Y += Y_INTERVAL;
+		} else if(keywordNum > 40 && keywordNum <= 50){
+			if(keywordNum == 41){
+				nextLabel_Y = initTextFiled_Y;
+				nextTextFiled_Y = initTextFiled_Y;
+			   }
+				Label nextLabel = new Label(KEY_WORDS_GROUP_CH + keywordNum);
+				nextLabel.setLayoutX(nextLabel_X);
+				nextLabel.setLayoutY(nextLabel_Y);
+				myPane5.getChildren().add(nextLabel);
+				
+				TextField nextTextField1 = new TextField();
+				nextTextField1.setMaxWidth(textFiledLength);
+				nextTextField1.setLayoutX(nextTextFiled_1_X);
+				nextTextField1.setLayoutY(nextTextFiled_Y);
+				myPane5.getChildren().add(nextTextField1);
+				
+				TextField nextTextField2 = new TextField();
+				nextTextField2.setMaxWidth(textFiledLength);
+				nextTextField2.setLayoutX(nextTextFiled_2_X);
+				nextTextField2.setLayoutY(nextTextFiled_Y);
+				myPane5.getChildren().add(nextTextField2);
+				
+				TextField nextTextField3 = new TextField();
+				nextTextField3.setMaxWidth(textFiledLength);
+				nextTextField3.setLayoutX(nextTextFiled_3_X);
+				nextTextField3.setLayoutY(nextTextFiled_Y);
+				myPane5.getChildren().add(nextTextField3);
+			
+				nextLabel_Y += Y_INTERVAL;
+				nextTextFiled_Y += Y_INTERVAL;
+		}
 	}
 }
