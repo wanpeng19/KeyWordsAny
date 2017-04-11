@@ -6,12 +6,14 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -102,7 +104,6 @@ public class MyControl implements Initializable {
 			String selector1 = "#key_"+i+"_"+"1";
 			String selector2 = "#key_"+i+"_"+"2";
 			String selector3 = "#key_"+i+"_"+"3";
-			System.out.println(selector1);
 			TextField field1 = FxQuery.$$(selector1, TextField.class);
 			TextField field2 = FxQuery.$$(selector2, TextField.class);
 			TextField field3 = FxQuery.$$(selector3, TextField.class);
@@ -119,7 +120,7 @@ public class MyControl implements Initializable {
 			
 			orSet.add(andList);
 		}
-        System.out.println("orSet=" + orSet);
+        System.out.println("输入关键词组=" + orSet);
 		if (!flag) {
 			System.out.println("未选择文件");
 			label_common.setText("请先选择文件");
@@ -127,30 +128,53 @@ public class MyControl implements Initializable {
 		}
 		label_common.setText("正在分析");
 
-		for (String keywrod : keywords) {
-			String replacedStr = keywrod;
-			List<String> keyWrodList = Arrays.asList(keywrod.split(" "));
-			for(List<String> andList :  orSet){
+//		for (String keywrod : keywords) {
+//			String replacedStr = keywrod;
+//			List<String> keyWrodList = Arrays.asList(keywrod.split(" "));
+//			for(List<String> andList :  orSet){
+//				if (andList.size() > 0 && keyWrodList.containsAll(andList)) {
+//					result1.add(keywrod);
+//					for(String tem : andList){
+//						replacedStr = replacedStr.replace(tem, "+"+tem);
+//					}
+//					resultReplaced.add(replacedStr);
+//				}
+//			}
+//		}
+		
+		for(List<String> andList :  orSet){
+			for (String keywrod : keywords) {
+				String replacedStr = keywrod;
+				List<String> keyWrodList = Arrays.asList(keywrod.split(" "));
 				if (andList.size() > 0 && keyWrodList.containsAll(andList)) {
 					result1.add(keywrod);
 					for(String tem : andList){
 						replacedStr = replacedStr.replace(tem, "+"+tem);
 					}
-					resultReplaced.add(replacedStr);
+					resultReplaced.add(StringUtils.join(andList," ")+ ", "+replacedStr+"\n");
 				}
 			}
 		}
+		
+
 		System.out.println("过滤后结果为：" + result1);
 		System.out.println("过滤并转换后结果为：" + resultReplaced);
+		Collection<String> leftResult = CollectionUtils.subtract(keywords, result1);
+		System.out.println("被过滤之后剩下的结果为："+  leftResult);
+		
+		
 		// 写入文件
 		String path = file.getAbsolutePath();
 		System.out.println(path);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
-		String resultPath = path.replace(".xlsx", "_result_" + sdf.format(new Date()) + ".txt");
+		String resultPath = path.replace(".xlsx", "_result_" + sdf.format(new Date()) + ".csv");
 		System.out.println(resultPath);
 		FileUtils.writeLines(new File(resultPath), resultReplaced);
 		btn_2.setText("开始分析");
 		label_common.setText("分析结束，导出结果为" + resultPath);
+		
+		String resultLeftPath = path.replace(".xlsx", "_left_result_" + sdf.format(new Date()) + ".csv");
+		FileUtils.writeLines(new File(resultLeftPath), leftResult);
 	}
 
 	@FXML
