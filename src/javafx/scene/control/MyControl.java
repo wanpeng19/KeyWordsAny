@@ -100,26 +100,7 @@ public class MyControl implements Initializable {
 		
 		Set<String> result1 = new HashSet<String>();
 		Set<String> resultReplaced = new HashSet<String>();
-		for(int i = 1; i <= keywordNum; i++ ){
-			String selector1 = "#key_"+i+"_"+"1";
-			String selector2 = "#key_"+i+"_"+"2";
-			String selector3 = "#key_"+i+"_"+"3";
-			TextField field1 = FxQuery.$$(selector1, TextField.class);
-			TextField field2 = FxQuery.$$(selector2, TextField.class);
-			TextField field3 = FxQuery.$$(selector3, TextField.class);
-			List<String> andList = new ArrayList<String>();
-			
-			String text1 = field1.getText();
-			if(StringUtils.isNoneBlank(text1)) andList.add(text1);
-	
-			String text2 = field2.getText();
-			if(StringUtils.isNoneBlank(text2)) andList.add(text2);
-			
-			String text3 = field3.getText();
-			if(StringUtils.isNoneBlank(text3)) andList.add(text3);
-			
-			orSet.add(andList);
-		}
+		getInputKeywords(orSet);
         System.out.println("输入关键词组=" + orSet);
 		if (!flag) {
 			System.out.println("未选择文件");
@@ -170,10 +151,33 @@ public class MyControl implements Initializable {
 		System.out.println(resultPath);
 		FileUtils.writeLines(new File(resultPath), resultReplaced);
 		btn_2.setText("开始分析");
-		label_common.setText("分析结束，导出结果为" + resultPath);
+		label_common.setText("分析结束，导出结果为\n" + resultPath);
 		
 		String resultLeftPath = path.replace(".xlsx", "_left_result_" + sdf.format(new Date()) + ".csv");
 		FileUtils.writeLines(new File(resultLeftPath), leftResult);
+	}
+
+	private void getInputKeywords(Set<List<String>> orSet) {
+		for(int i = 1; i <= keywordNum; i++ ){
+			String selector1 = "#key_"+i+"_"+"1";
+			String selector2 = "#key_"+i+"_"+"2";
+			String selector3 = "#key_"+i+"_"+"3";
+			TextField field1 = FxQuery.$$(selector1, TextField.class);
+			TextField field2 = FxQuery.$$(selector2, TextField.class);
+			TextField field3 = FxQuery.$$(selector3, TextField.class);
+			List<String> andList = new ArrayList<String>();
+			
+			String text1 = field1.getText();
+			if(StringUtils.isNoneBlank(text1)) andList.add(text1);
+	
+			String text2 = field2.getText();
+			if(StringUtils.isNoneBlank(text2)) andList.add(text2);
+			
+			String text3 = field3.getText();
+			if(StringUtils.isNoneBlank(text3)) andList.add(text3);
+			
+			orSet.add(andList);
+		}
 	}
 
 	private boolean partMatch(String keywrod, List<String> andList) {
@@ -362,5 +366,9 @@ public class MyControl implements Initializable {
 				nextLabel_Y += Y_INTERVAL;
 				nextTextFiled_Y += Y_INTERVAL;
 		}
+	}
+	
+	private void saveKeyWord() {
+
 	}
 }
