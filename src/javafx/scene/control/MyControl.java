@@ -145,13 +145,12 @@ public class MyControl implements Initializable {
 		for(List<String> andList :  orSet){
 			for (String keywrod : keywords) {
 				String replacedStr = keywrod;
-				List<String> keyWrodList = Arrays.asList(keywrod.split(" "));
-				if (andList.size() > 0 && keyWrodList.containsAll(andList)) {
+				if (andList.size() > 0 && partMatch(keywrod, andList)) {
 					result1.add(keywrod);
 					for(String tem : andList){
 						replacedStr = replacedStr.replace(tem, "+"+tem);
 					}
-					resultReplaced.add(StringUtils.join(andList," ")+ ", "+replacedStr+"\n");
+					resultReplaced.add(StringUtils.join(andList," ")+ ", "+replacedStr);
 				}
 			}
 		}
@@ -175,6 +174,14 @@ public class MyControl implements Initializable {
 		
 		String resultLeftPath = path.replace(".xlsx", "_left_result_" + sdf.format(new Date()) + ".csv");
 		FileUtils.writeLines(new File(resultLeftPath), leftResult);
+	}
+
+	private boolean partMatch(String keywrod, List<String> andList) {
+        boolean ismatch = true;
+        for (String and :andList){
+        	ismatch = ismatch && StringUtils.indexOf(keywrod, and) >= 0;
+        }
+		return ismatch;
 	}
 
 	@FXML
