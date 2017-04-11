@@ -93,79 +93,62 @@ public class MyControl implements Initializable {
 	@FXML
 	private void start(ActionEvent event) throws IOException {
 		
-		//TODO
-
+		
+		Set<List<String>> orSet = new HashSet<List<String>>();
+		
+		Set<String> result1 = new HashSet<String>();
+		Set<String> resultReplaced = new HashSet<String>();
+		for(int i = 1; i <= keywordNum; i++ ){
+			String selector1 = "#key_"+i+"_"+"1";
+			String selector2 = "#key_"+i+"_"+"2";
+			String selector3 = "#key_"+i+"_"+"3";
+			System.out.println(selector1);
+			TextField field1 = FxQuery.$$(selector1, TextField.class);
+			TextField field2 = FxQuery.$$(selector2, TextField.class);
+			TextField field3 = FxQuery.$$(selector3, TextField.class);
+			List<String> andList = new ArrayList<String>();
+			
+			String text1 = field1.getText();
+			if(StringUtils.isNoneBlank(text1)) andList.add(text1);
+	
+			String text2 = field2.getText();
+			if(StringUtils.isNoneBlank(text2)) andList.add(text2);
+			
+			String text3 = field3.getText();
+			if(StringUtils.isNoneBlank(text3)) andList.add(text3);
+			
+			orSet.add(andList);
+		}
+        System.out.println("orSet=" + orSet);
 		if (!flag) {
 			System.out.println("未选择文件");
 			label_common.setText("请先选择文件");
 			return;
 		}
 		label_common.setText("正在分析");
-		List<String> andSet1 = new ArrayList<String>();
-		List<String> andSet2 = new ArrayList<String>();
-		List<String> andSet3 = new ArrayList<String>();
 
-		System.out.println("start");
-		// 获得输入
-		if (StringUtils.isNoneBlank(key_1_1.getText())) {
-			andSet1.add(key_1_1.getText());
-		}
-		if (StringUtils.isNoneBlank(key_1_2.getText())) {
-			andSet1.add(key_1_2.getText());
-		}
-		if (StringUtils.isNoneBlank(key_1_3.getText())) {
-			andSet1.add(key_1_3.getText());
-		}
-		if (StringUtils.isNoneBlank(key_2_1.getText())) {
-			andSet2.add(key_2_1.getText());
-		}
-		if (StringUtils.isNoneBlank(key_2_2.getText())) {
-			andSet2.add(key_2_2.getText());
-		}
-		if (StringUtils.isNoneBlank(key_2_3.getText())) {
-			andSet2.add(key_2_3.getText());
-		}
-		if (StringUtils.isNoneBlank(key_3_1.getText())) {
-			andSet3.add(key_3_1.getText());
-		}
-		if (StringUtils.isNoneBlank(key_3_2.getText())) {
-			andSet3.add(key_3_2.getText());
-		}
-		if (StringUtils.isNoneBlank(key_3_3.getText())) {
-			andSet3.add(key_3_3.getText());
-		}
-		System.out.println("andSet1=" + andSet1);
-		System.out.println("andSet2=" + andSet2);
-		System.out.println("andSet3=" + andSet3);
-
-		// 开始过滤
-		// 过滤关键词组1
-		Set<String> result1 = new HashSet<String>();
-		Set<String> result2 = new HashSet<String>();
-		Set<String> result3 = new HashSet<String>();
 		for (String keywrod : keywords) {
+			String replacedStr = keywrod;
 			List<String> keyWrodList = Arrays.asList(keywrod.split(" "));
-			if (andSet1.size() > 0 && keyWrodList.containsAll(andSet1)) {
-				result1.add(keywrod);
-			}
-			if (andSet2.size() > 0 && keyWrodList.containsAll(andSet2)) {
-				result2.add(keywrod);
-			}
-			if (andSet3.size() > 0 && keyWrodList.containsAll(andSet3)) {
-				result3.add(keywrod);
+			for(List<String> andList :  orSet){
+				if (andList.size() > 0 && keyWrodList.containsAll(andList)) {
+					result1.add(keywrod);
+					for(String tem : andList){
+						replacedStr = replacedStr.replace(tem, "+"+tem);
+					}
+					resultReplaced.add(replacedStr);
+				}
 			}
 		}
-		result1.addAll(result2);
-		result1.addAll(result3);
 		System.out.println("过滤后结果为：" + result1);
-
+		System.out.println("过滤并转换后结果为：" + resultReplaced);
 		// 写入文件
 		String path = file.getAbsolutePath();
 		System.out.println(path);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
 		String resultPath = path.replace(".xlsx", "_result_" + sdf.format(new Date()) + ".txt");
 		System.out.println(resultPath);
-		FileUtils.writeLines(new File(resultPath), result1);
+		FileUtils.writeLines(new File(resultPath), resultReplaced);
 		btn_2.setText("开始分析");
 		label_common.setText("分析结束，导出结果为" + resultPath);
 	}
