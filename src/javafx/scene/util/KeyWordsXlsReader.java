@@ -29,13 +29,13 @@ public class KeyWordsXlsReader {
 				throw new Exception("sheet" + sheetIndex + "不存在");
 
 			// Read the Row
-			for (int rowNum = 1; rowNum <= 10000; rowNum++) {
+			for (int rowNum = 0; rowNum <= 10000; rowNum++) {
 				XSSFRow xssfRow = xssfSheet.getRow(rowNum);
 
 				if (xssfRow != null) {
 					XSSFCell cell1 = xssfRow.getCell(0);
 					String value = getValue(cell1);
-					keys.add(value);
+					keys.add(value.trim());
 					if (org.apache.commons.lang3.StringUtils.isBlank(value)) {
 						break;
 					}

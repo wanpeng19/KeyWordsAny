@@ -7,16 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fpx.grs.wh.util.FxQuery;
@@ -82,14 +79,14 @@ public class MyControl implements Initializable {
 	@FXML
 	Label label_common;
 
-	File file;
+	File readfile;
 	List<String> keywords;
 
 	Boolean flag = false;
 
 	int keywordNum = 3;
 
-	Set<List<String>> orSet = new HashSet<List<String>>();
+	List<List<String>> orSet = new ArrayList<List<String>>();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -98,8 +95,8 @@ public class MyControl implements Initializable {
 	@FXML
 	private void start(ActionEvent event) throws IOException {
 
-		Set<String> result1 = new HashSet<String>();
-		Set<String> resultReplaced = new HashSet<String>();
+		List<String> result1 = new ArrayList<String>();
+		List<String> resultReplaced = new ArrayList<String>();
 		getInputKeywords(orSet);
 		System.out.println("输入关键词组=" + orSet);
 		if (!flag) {
@@ -108,20 +105,6 @@ public class MyControl implements Initializable {
 			return;
 		}
 		label_common.setText("正在分析");
-
-		// for (String keywrod : keywords) {
-		// String replacedStr = keywrod;
-		// List<String> keyWrodList = Arrays.asList(keywrod.split(" "));
-		// for(List<String> andList : orSet){
-		// if (andList.size() > 0 && keyWrodList.containsAll(andList)) {
-		// result1.add(keywrod);
-		// for(String tem : andList){
-		// replacedStr = replacedStr.replace(tem, "+"+tem);
-		// }
-		// resultReplaced.add(replacedStr);
-		// }
-		// }
-		// }
 
 		for (List<String> andList : orSet) {
 			for (String keywrod : keywords) {
@@ -142,7 +125,7 @@ public class MyControl implements Initializable {
 		System.out.println("被过滤之后剩下的结果为：" + leftResult);
 
 		// 写入文件
-		String path = file.getAbsolutePath();
+		String path = readfile.getAbsolutePath();
 		System.out.println(path);
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMDDHHmmss");
 		String resultPath = path.replace(".xlsx", "_result_" + sdf.format(new Date()) + ".csv");
@@ -155,7 +138,10 @@ public class MyControl implements Initializable {
 		FileUtils.writeLines(new File(resultLeftPath), leftResult);
 	}
 
-	private void getInputKeywords(Set<List<String>> orSet) {
+	private void getInputKeywords(List<List<String>> orSet2) {
+		
+		orSet.clear();
+		
 		for (int i = 1; i <= keywordNum; i++) {
 			String selector1 = "#key_" + i + "_" + "1";
 			String selector2 = "#key_" + i + "_" + "2";
@@ -178,14 +164,14 @@ public class MyControl implements Initializable {
 				andList.add(text3);
 
 			if (andList.size() > 0)
-				orSet.add(andList);
+				orSet2.add(andList);
 		}
 	}
 
 	private boolean partMatch(String keywrod, List<String> andList) {
 		boolean ismatch = true;
 		for (String and : andList) {
-			ismatch = ismatch && StringUtils.indexOf(keywrod, and) >= 0;
+			ismatch = ismatch && StringUtils.indexOfIgnoreCase(keywrod, and) >= 0;
 		}
 		return ismatch;
 	}
@@ -194,9 +180,14 @@ public class MyControl implements Initializable {
 	private void chooseFile() throws Exception {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
-		file = fileChooser.showOpenDialog(null);
-		keywords = KeyWordsXlsReader.readConfigXlsx(file, 0);
-		System.out.println(keywords);
+		readfile = fileChooser.showOpenDialog(null);
+		try {
+			keywords = KeyWordsXlsReader.readConfigXlsx(readfile, 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("keywords size="+keywords.size());
+		System.out.println("keywords="+StringUtils.join(keywords,"###"));
 		flag = true;
 		label_common.setText("已经选择文件，可以开始分析");
 	}
@@ -372,7 +363,7 @@ public class MyControl implements Initializable {
 
 	@FXML
 	private void saveKeyWord() throws IOException {
-		HashSet<List<String>> orSet = new HashSet<List<String>>();
+		List<List<String>> orSet = new ArrayList<List<String>>();
 		getInputKeywords(orSet);
 
 		System.out.println("保存的输入信息为：" + orSet);
@@ -382,7 +373,7 @@ public class MyControl implements Initializable {
 
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("保存关键词到");
-		file = fileChooser.showOpenDialog(null);
+		File file = fileChooser.showOpenDialog(null);
 
 		FileUtils.writeStringToFile(file, json, "UTF-8");
 
@@ -396,11 +387,12 @@ public class MyControl implements Initializable {
 
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("请选择关键词文件");
-		file = fileChooser.showOpenDialog(null);
+		File file = fileChooser.showOpenDialog(null);
 
 		String json = FileUtils.readFileToString(file, "UTF-8");
+		System.out.println("json="+json);
 		ObjectMapper objectMapper = new ObjectMapper();
-		HashSet<List<String>> readValue = (HashSet<List<String>>) objectMapper.readValue(json, HashSet.class);
+		List<List<String>> readValue = (List<List<String>>) objectMapper.readValue(json, ArrayList.class);
 		System.out.println("读取关键词为：" + readValue);
 
 		// 根据
