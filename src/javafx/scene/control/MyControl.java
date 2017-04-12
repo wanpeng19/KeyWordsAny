@@ -113,7 +113,7 @@ public class MyControl implements Initializable {
 				if (andList.size() > 0 && partMatch(keywrod, andList) && !result1.contains(keywrod)) {
 					result1.add(keywrod);
 					for (String tem : andList) {
-						replacedStr = replacedStr.replace(tem, "+" + tem);
+						replacedStr = StringUtils.replaceIgnoreCase(replacedStr, tem, "+" + tem);
 					}
 					resultReplaced.add(StringUtils.join(andList, " ") + ", " + replacedStr);
 				}
