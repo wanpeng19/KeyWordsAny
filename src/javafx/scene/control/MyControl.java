@@ -107,9 +107,10 @@ public class MyControl implements Initializable {
 		label_common.setText("正在分析");
 
 		for (List<String> andList : orSet) {
+			
 			for (String keywrod : keywords) {
 				String replacedStr = keywrod;
-				if (andList.size() > 0 && partMatch(keywrod, andList)) {
+				if (andList.size() > 0 && partMatch(keywrod, andList) && !result1.contains(keywrod)) {
 					result1.add(keywrod);
 					for (String tem : andList) {
 						replacedStr = replacedStr.replace(tem, "+" + tem);
@@ -187,7 +188,7 @@ public class MyControl implements Initializable {
 			e.printStackTrace();
 		}
 		System.out.println("keywords size="+keywords.size());
-		System.out.println("keywords="+StringUtils.join(keywords,"###"));
+		System.out.println("keywords="+keywords);
 		flag = true;
 		label_common.setText("已经选择文件，可以开始分析");
 	}
