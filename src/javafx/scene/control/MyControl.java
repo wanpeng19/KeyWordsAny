@@ -423,5 +423,7 @@ public class MyControl implements Initializable {
 				field3.setText(list.get(2));
 			i++;
 		}
+		
+		label_common.setText("读取文件成功，路径为\n" + file.getAbsolutePath());
 	}
 }
